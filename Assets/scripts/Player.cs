@@ -6,14 +6,14 @@ public class Player : MonoBehaviour {
 	public Vector2 maxVelocity = new Vector2(3, 5);
 	public bool standing = true;
 
-	// private PlayerKeyboardController controller;
-	private PlayerSerialController controller;
+	private PlayerKeyboardController controller;
+	// private PlayerSerialController controller;
 
 	private Rigidbody2D rigidbody2d;
 	private Animator animator;
 
 	void Start() {
-		controller = GetComponent<PlayerSerialController>();
+		controller = GetComponent<PlayerKeyboardController>();
 		rigidbody2d = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		rigidbody2d.drag = 2;

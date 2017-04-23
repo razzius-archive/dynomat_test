@@ -15,6 +15,7 @@ public class PlayerKeyboardController : MonoBehaviour {
 		moving.x = moving.y = 0;
 
 		if (Input.GetKey ("right")) {
+			print("R");
 			moving.x = speed;
 		} else if (Input.GetKey ("left")) {
 			moving.x = -speed;
