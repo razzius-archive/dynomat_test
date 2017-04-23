@@ -7,36 +7,57 @@ public class Cat : MonoBehaviour {
 
     // private PlayerKeyboardController controller;
     private Rigidbody2D rigidbody2d;
-    private bool mouseDown;
-    private Vector2 startMouse;
-
+    private bool dragging;
+    private Vector2 startMousePosition;
+	private bool onGround;
 	// Use this for initialization
     void Start() {
         // controller = GetComponent<PlayerKeyboardController>();
         rigidbody2d = GetComponent<Rigidbody2D>();
         rigidbody2d.drag = 0;
+		onGround = true;
     }
 
 	// Update is called once per frame
 	void Update () {
         if (UnityEngine.Input.GetMouseButton(0)) {
-            if (!mouseDown) {
-                mouseDown = true;
-                Vector3 mousePosition = Input.mousePosition;
-                print(mousePosition);
-                startMouse = new Vector2(mousePosition.x, mousePosition.y);
+            if (!dragging) {
+                dragging = true;
+				startMousePosition = Input.mousePosition;
             }
-        } else if (!UnityEngine.Input.GetMouseButton(0) && mouseDown) {
-            mouseDown = false;
-            int force = Random.Range(-40, 40);
-            print(force);
-            Vector3 mousePosition = Input.mousePosition;
-            Vector2 endMouse = new Vector2(mousePosition.x, mousePosition.y);
-            Vector2 difference = startMouse - endMouse;
-            print(difference);
-            rigidbody2d.AddForce(2 * difference);
+		// Mouse not clicked
+		} else  {
+
+			if (dragging && onGround) {
+				Vector3 mousePosition = Input.mousePosition;
+				Vector2 endMouse = new Vector2(mousePosition.x, mousePosition.y);
+				Vector2 difference = startMousePosition - endMouse;
+				//            print(difference);
+				rigidbody2d.AddForce(difference);
+				onGround = false;
+			
+			}
+			dragging = false;
+
+
+
+//            print(force);
+
         }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -11, 11), transform.position.y, 0);
-        print(transform.position.x);
+//        print(transform.position.x);
+//		print (rigidbody2d.velocity);
+
+
 	}
+
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if (col.gameObject.name == "stoneCenter") {
+			rigidbody2d.velocity = new Vector2 (0, 0);
+			print ("collided");
+			onGround = true;
+		}
+				
+}
 }
