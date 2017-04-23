@@ -36,5 +36,7 @@ public class Cat : MonoBehaviour {
             print(difference);
             rigidbody2d.AddForce(2 * difference);
         }
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -11, 11), transform.position.y, 0);
+        print(transform.position.x);
 	}
 }
